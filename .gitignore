@@ -1,3 +1,10 @@
+# Project specific
+output/
+photos/
+screenshots/
+3d-models/
+edit.txt
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
