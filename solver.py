@@ -6,8 +6,6 @@ import time
 from typing import Any, Dict, List, Tuple
 from PIL import Image, ImageDraw
 
-MAX_SOLN_IMAGES = 20
-
 EMPTY_DOT = 'O'
 EMPTY_CELL = 'X'
 HORIZ_DIV = '-'
@@ -383,7 +381,6 @@ def solve(set_piece_bits, remaining_piece_bits, open_cells: List[Tuple[int, int]
   if len(remaining_piece_bits) == 0:
     return [set_piece_bits]
   
-  # TODO: See if we can get rid of extra copying
   # Get the next bit to set & remove it from the remaining bits
   curr_bit = remaining_piece_bits[0]
   new_remaining_piece_bits = remaining_piece_bits[1:]
@@ -534,7 +531,6 @@ def parse_solution_json_obj(solution_obj):
       bit['end_dot_dir'] = Direction[bit['end_dot_dir'].split('Direction.')[1]]
   return solution_obj
   
-
 def load_solution_from_file(filename):
   with open(f'solutions/json/{filename}') as f:
     solution = json.load(f)['solution']
@@ -647,6 +643,8 @@ def main():
 
   grid = load_grid_from_file(puzzle_filename)
 
+  print(get_grid_str(grid))
+
   all_open_cells = get_open_cells(grid)
   all_open_dots = get_open_dots(grid)
 
@@ -665,18 +663,15 @@ def main():
   with open(f"solutions/json/{puzzle_name}{'-all' if solve_all else ''}.json", 'w+') as f:
     result = {
       'solutions': solutions,
-      'duration': time.time() - start_time,
+      'duration': int(time.time() - start_time),
     }
-    json.dump(result, f, default=str)
+    json.dump(result, f, default=str, indent=2)
 
   for i, solution in enumerate(solutions):
     print(get_soln_str(grid, solution))
 
-    if i > MAX_SOLN_IMAGES:
-      print(f"WARNING: There are more than {MAX_SOLN_IMAGES} solutions ({len(solutions)}). Only saving the first {MAX_SOLN_IMAGES} images.")
-  
     image = get_solution_image(grid, solution)
-    image.save(f"solutions/images/{puzzle_name}-{i}.png")
+    image.save(f"solutions/images/{puzzle_name}{f'-{i}' if solve_all else ''}.png")
   
 if __name__ == '__main__':
   main()

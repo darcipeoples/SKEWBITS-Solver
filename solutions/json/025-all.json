@@ -7,6 +7,170 @@
         "bit_idx": 0,
         "bit_type": "Bit.ONE",
         "cell_pos": [
+          3,
+          9
+        ],
+        "start_dot_num": null,
+        "start_dot_pos": null,
+        "start_dot_dir": null,
+        "end_dot_num": 0,
+        "end_dot_pos": [
+          2,
+          8
+        ],
+        "end_dot_dir": "Direction.TOP_LEFT"
+      },
+      {
+        "piece_idx": 0,
+        "piece_type": "Piece.RED",
+        "bit_idx": 1,
+        "bit_type": "Bit.TWO_A",
+        "cell_pos": [
+          3,
+          7
+        ],
+        "start_dot_num": 0,
+        "start_dot_pos": [
+          2,
+          8
+        ],
+        "start_dot_dir": "Direction.BOTTOM_LEFT",
+        "end_dot_num": 1,
+        "end_dot_pos": [
+          2,
+          6
+        ],
+        "end_dot_dir": "Direction.TOP_LEFT"
+      },
+      {
+        "piece_idx": 0,
+        "piece_type": "Piece.RED",
+        "bit_idx": 2,
+        "bit_type": "Bit.TWO_A",
+        "cell_pos": [
+          3,
+          5
+        ],
+        "start_dot_num": 0,
+        "start_dot_pos": [
+          2,
+          6
+        ],
+        "start_dot_dir": "Direction.BOTTOM_LEFT",
+        "end_dot_num": 1,
+        "end_dot_pos": [
+          2,
+          4
+        ],
+        "end_dot_dir": "Direction.TOP_LEFT"
+      },
+      {
+        "piece_idx": 0,
+        "piece_type": "Piece.RED",
+        "bit_idx": 3,
+        "bit_type": "Bit.ONE",
+        "cell_pos": [
+          1,
+          3
+        ],
+        "start_dot_num": 0,
+        "start_dot_pos": [
+          2,
+          4
+        ],
+        "start_dot_dir": "Direction.BOTTOM_RIGHT",
+        "end_dot_num": null,
+        "end_dot_pos": null,
+        "end_dot_dir": null
+      },
+      {
+        "piece_idx": 1,
+        "piece_type": "Piece.YELLOW",
+        "bit_idx": 0,
+        "bit_type": "Bit.ONE",
+        "cell_pos": [
+          7,
+          7
+        ],
+        "start_dot_num": null,
+        "start_dot_pos": null,
+        "start_dot_dir": null,
+        "end_dot_num": 0,
+        "end_dot_pos": [
+          8,
+          6
+        ],
+        "end_dot_dir": "Direction.TOP_RIGHT"
+      },
+      {
+        "piece_idx": 1,
+        "piece_type": "Piece.YELLOW",
+        "bit_idx": 1,
+        "bit_type": "Bit.TWO_B",
+        "cell_pos": [
+          7,
+          5
+        ],
+        "start_dot_num": 0,
+        "start_dot_pos": [
+          8,
+          6
+        ],
+        "start_dot_dir": "Direction.BOTTOM_RIGHT",
+        "end_dot_num": 2,
+        "end_dot_pos": [
+          6,
+          4
+        ],
+        "end_dot_dir": "Direction.TOP_LEFT"
+      },
+      {
+        "piece_idx": 1,
+        "piece_type": "Piece.YELLOW",
+        "bit_idx": 2,
+        "bit_type": "Bit.TWO_B",
+        "cell_pos": [
+          5,
+          5
+        ],
+        "start_dot_num": 0,
+        "start_dot_pos": [
+          6,
+          4
+        ],
+        "start_dot_dir": "Direction.TOP_RIGHT",
+        "end_dot_num": 2,
+        "end_dot_pos": [
+          4,
+          6
+        ],
+        "end_dot_dir": "Direction.BOTTOM_LEFT"
+      },
+      {
+        "piece_idx": 1,
+        "piece_type": "Piece.YELLOW",
+        "bit_idx": 3,
+        "bit_type": "Bit.ONE",
+        "cell_pos": [
+          5,
+          7
+        ],
+        "start_dot_num": 0,
+        "start_dot_pos": [
+          4,
+          6
+        ],
+        "start_dot_dir": "Direction.TOP_LEFT",
+        "end_dot_num": null,
+        "end_dot_pos": null,
+        "end_dot_dir": null
+      },
+      {
+        "piece_idx": 2,
+        "piece_type": "Piece.GREEN",
+        "bit_idx": 0,
+        "bit_type": "Bit.ONE",
+        "cell_pos": [
           7,
           3
         ],
@@ -15,67 +179,89 @@
         "start_dot_dir": null,
         "end_dot_num": 0,
         "end_dot_pos": [
-          8,
+          6,
           2
         ],
-        "end_dot_dir": "Direction.TOP_RIGHT"
+        "end_dot_dir": "Direction.TOP_LEFT"
       },
       {
-        "piece_idx": 0,
-        "piece_type": "Piece.RED",
+        "piece_idx": 2,
+        "piece_type": "Piece.GREEN",
         "bit_idx": 1,
         "bit_type": "Bit.TWO_A",
-        "cell_pos": [
-          7,
-          1
-        ],
-        "start_dot_num": 0,
-        "start_dot_pos": [
-          8,
-          2
-        ],
-        "start_dot_dir": "Direction.BOTTOM_RIGHT",
-        "end_dot_num": 1,
-        "end_dot_pos": [
-          6,
-          2
-        ],
-        "end_dot_dir": "Direction.BOTTOM_LEFT"
-      },
-      {
-        "piece_idx": 0,
-        "piece_type": "Piece.RED",
-        "bit_idx": 2,
-        "bit_type": "Bit.TWO_A",
-        "cell_pos": [
-          5,
-          1
-        ],
-        "start_dot_num": 0,
-        "start_dot_pos": [
-          6,
-          2
-        ],
-        "start_dot_dir": "Direction.BOTTOM_RIGHT",
-        "end_dot_num": 1,
-        "end_dot_pos": [
-          4,
-          2
-        ],
-        "end_dot_dir": "Direction.BOTTOM_LEFT"
-      },
-      {
-        "piece_idx": 0,
-        "piece_type": "Piece.RED",
-        "bit_idx": 3,
-        "bit_type": "Bit.ONE",
         "cell_pos": [
           5,
           3
         ],
+        "start_dot_num": 1,
+        "start_dot_pos": [
+          6,
+          2
+        ],
+        "start_dot_dir": "Direction.TOP_RIGHT",
+        "end_dot_num": 0,
+        "end_dot_pos": [
+          4,
+          2
+        ],
+        "end_dot_dir": "Direction.TOP_LEFT"
+      },
+      {
+        "piece_idx": 2,
+        "piece_type": "Piece.GREEN",
+        "bit_idx": 2,
+        "bit_type": "Bit.TWO_B",
+        "cell_pos": [
+          3,
+          1
+        ],
         "start_dot_num": 0,
         "start_dot_pos": [
           4,
+          2
+        ],
+        "start_dot_dir": "Direction.BOTTOM_RIGHT",
+        "end_dot_num": 2,
+        "end_dot_pos": [
+          2,
+          0
+        ],
+        "end_dot_dir": "Direction.TOP_LEFT"
+      },
+      {
+        "piece_idx": 2,
+        "piece_type": "Piece.GREEN",
+        "bit_idx": 3,
+        "bit_type": "Bit.TWO_A",
+        "cell_pos": [
+          1,
+          1
+        ],
+        "start_dot_num": 0,
+        "start_dot_pos": [
+          2,
+          0
+        ],
+        "start_dot_dir": "Direction.TOP_RIGHT",
+        "end_dot_num": 1,
+        "end_dot_pos": [
+          2,
+          2
+        ],
+        "end_dot_dir": "Direction.BOTTOM_RIGHT"
+      },
+      {
+        "piece_idx": 2,
+        "piece_type": "Piece.GREEN",
+        "bit_idx": 4,
+        "bit_type": "Bit.ONE",
+        "cell_pos": [
+          3,
+          3
+        ],
+        "start_dot_num": 0,
+        "start_dot_pos": [
+          2,
           2
         ],
         "start_dot_dir": "Direction.TOP_LEFT",
@@ -84,289 +270,103 @@
         "end_dot_dir": null
       },
       {
-        "piece_idx": 1,
-        "piece_type": "Piece.YELLOW",
+        "piece_idx": 3,
+        "piece_type": "Piece.BLUE",
         "bit_idx": 0,
         "bit_type": "Bit.ONE",
         "cell_pos": [
-          5,
-          7
+          9,
+          9
         ],
         "start_dot_num": null,
         "start_dot_pos": null,
         "start_dot_dir": null,
         "end_dot_num": 0,
         "end_dot_pos": [
-          4,
+          8,
           8
-        ],
-        "end_dot_dir": "Direction.BOTTOM_LEFT"
-      },
-      {
-        "piece_idx": 1,
-        "piece_type": "Piece.YELLOW",
-        "bit_idx": 1,
-        "bit_type": "Bit.TWO_B",
-        "cell_pos": [
-          3,
-          7
-        ],
-        "start_dot_num": 0,
-        "start_dot_pos": [
-          4,
-          8
-        ],
-        "start_dot_dir": "Direction.BOTTOM_RIGHT",
-        "end_dot_num": 2,
-        "end_dot_pos": [
-          2,
-          6
         ],
         "end_dot_dir": "Direction.TOP_LEFT"
       },
       {
-        "piece_idx": 1,
-        "piece_type": "Piece.YELLOW",
-        "bit_idx": 2,
+        "piece_idx": 3,
+        "piece_type": "Piece.BLUE",
+        "bit_idx": 1,
         "bit_type": "Bit.TWO_B",
         "cell_pos": [
-          3,
-          5
+          9,
+          7
         ],
         "start_dot_num": 0,
         "start_dot_pos": [
-          2,
-          6
+          8,
+          8
         ],
         "start_dot_dir": "Direction.BOTTOM_LEFT",
         "end_dot_num": 2,
         "end_dot_pos": [
-          4,
-          4
+          10,
+          6
         ],
         "end_dot_dir": "Direction.TOP_RIGHT"
       },
       {
-        "piece_idx": 1,
-        "piece_type": "Piece.YELLOW",
-        "bit_idx": 3,
-        "bit_type": "Bit.ONE",
+        "piece_idx": 3,
+        "piece_type": "Piece.BLUE",
+        "bit_idx": 2,
+        "bit_type": "Bit.TWO_B",
         "cell_pos": [
-          3,
+          9,
+          5
+        ],
+        "start_dot_num": 0,
+        "start_dot_pos": [
+          10,
+          6
+        ],
+        "start_dot_dir": "Direction.BOTTOM_RIGHT",
+        "end_dot_num": 2,
+        "end_dot_pos": [
+          8,
+          4
+        ],
+        "end_dot_dir": "Direction.TOP_LEFT"
+      },
+      {
+        "piece_idx": 3,
+        "piece_type": "Piece.BLUE",
+        "bit_idx": 3,
+        "bit_type": "Bit.TWO_B",
+        "cell_pos": [
+          9,
           3
         ],
         "start_dot_num": 0,
         "start_dot_pos": [
-          4,
+          8,
           4
-        ],
-        "start_dot_dir": "Direction.BOTTOM_RIGHT",
-        "end_dot_num": null,
-        "end_dot_pos": null,
-        "end_dot_dir": null
-      },
-      {
-        "piece_idx": 2,
-        "piece_type": "Piece.GREEN",
-        "bit_idx": 0,
-        "bit_type": "Bit.ONE",
-        "cell_pos": [
-          9,
-          7
-        ],
-        "start_dot_num": null,
-        "start_dot_pos": null,
-        "start_dot_dir": null,
-        "end_dot_num": 0,
-        "end_dot_pos": [
-          10,
-          8
-        ],
-        "end_dot_dir": "Direction.BOTTOM_RIGHT"
-      },
-      {
-        "piece_idx": 2,
-        "piece_type": "Piece.GREEN",
-        "bit_idx": 1,
-        "bit_type": "Bit.TWO_A",
-        "cell_pos": [
-          9,
-          9
-        ],
-        "start_dot_num": 1,
-        "start_dot_pos": [
-          10,
-          8
-        ],
-        "start_dot_dir": "Direction.TOP_RIGHT",
-        "end_dot_num": 0,
-        "end_dot_pos": [
-          8,
-          8
-        ],
-        "end_dot_dir": "Direction.TOP_LEFT"
-      },
-      {
-        "piece_idx": 2,
-        "piece_type": "Piece.GREEN",
-        "bit_idx": 2,
-        "bit_type": "Bit.TWO_B",
-        "cell_pos": [
-          7,
-          7
-        ],
-        "start_dot_num": 0,
-        "start_dot_pos": [
-          8,
-          8
-        ],
-        "start_dot_dir": "Direction.BOTTOM_RIGHT",
-        "end_dot_num": 2,
-        "end_dot_pos": [
-          6,
-          6
-        ],
-        "end_dot_dir": "Direction.TOP_LEFT"
-      },
-      {
-        "piece_idx": 2,
-        "piece_type": "Piece.GREEN",
-        "bit_idx": 3,
-        "bit_type": "Bit.TWO_A",
-        "cell_pos": [
-          7,
-          5
-        ],
-        "start_dot_num": 0,
-        "start_dot_pos": [
-          6,
-          6
         ],
         "start_dot_dir": "Direction.BOTTOM_LEFT",
-        "end_dot_num": 1,
+        "end_dot_num": 2,
         "end_dot_pos": [
-          6,
-          4
-        ],
-        "end_dot_dir": "Direction.TOP_LEFT"
-      },
-      {
-        "piece_idx": 2,
-        "piece_type": "Piece.GREEN",
-        "bit_idx": 4,
-        "bit_type": "Bit.ONE",
-        "cell_pos": [
-          5,
-          5
-        ],
-        "start_dot_num": 0,
-        "start_dot_pos": [
-          6,
-          4
-        ],
-        "start_dot_dir": "Direction.TOP_RIGHT",
-        "end_dot_num": null,
-        "end_dot_pos": null,
-        "end_dot_dir": null
-      },
-      {
-        "piece_idx": 3,
-        "piece_type": "Piece.BLUE",
-        "bit_idx": 0,
-        "bit_type": "Bit.ONE",
-        "cell_pos": [
-          7,
-          11
-        ],
-        "start_dot_num": null,
-        "start_dot_pos": null,
-        "start_dot_dir": null,
-        "end_dot_num": 0,
-        "end_dot_pos": [
-          8,
-          10
+          10,
+          2
         ],
         "end_dot_dir": "Direction.TOP_RIGHT"
       },
       {
         "piece_idx": 3,
         "piece_type": "Piece.BLUE",
-        "bit_idx": 1,
-        "bit_type": "Bit.TWO_B",
-        "cell_pos": [
-          7,
-          9
-        ],
-        "start_dot_num": 0,
-        "start_dot_pos": [
-          8,
-          10
-        ],
-        "start_dot_dir": "Direction.BOTTOM_RIGHT",
-        "end_dot_num": 2,
-        "end_dot_pos": [
-          6,
-          8
-        ],
-        "end_dot_dir": "Direction.TOP_LEFT"
-      },
-      {
-        "piece_idx": 3,
-        "piece_type": "Piece.BLUE",
-        "bit_idx": 2,
-        "bit_type": "Bit.TWO_B",
-        "cell_pos": [
-          5,
-          9
-        ],
-        "start_dot_num": 0,
-        "start_dot_pos": [
-          6,
-          8
-        ],
-        "start_dot_dir": "Direction.TOP_RIGHT",
-        "end_dot_num": 2,
-        "end_dot_pos": [
-          4,
-          10
-        ],
-        "end_dot_dir": "Direction.BOTTOM_LEFT"
-      },
-      {
-        "piece_idx": 3,
-        "piece_type": "Piece.BLUE",
-        "bit_idx": 3,
-        "bit_type": "Bit.TWO_B",
-        "cell_pos": [
-          3,
-          9
-        ],
-        "start_dot_num": 0,
-        "start_dot_pos": [
-          4,
-          10
-        ],
-        "start_dot_dir": "Direction.BOTTOM_RIGHT",
-        "end_dot_num": 2,
-        "end_dot_pos": [
-          2,
-          8
-        ],
-        "end_dot_dir": "Direction.TOP_LEFT"
-      },
-      {
-        "piece_idx": 3,
-        "piece_type": "Piece.BLUE",
         "bit_idx": 4,
         "bit_type": "Bit.ONE",
         "cell_pos": [
-          1,
-          7
+          9,
+          1
         ],
         "start_dot_num": 0,
         "start_dot_pos": [
-          2,
-          8
+          10,
+          2
         ],
         "start_dot_dir": "Direction.BOTTOM_RIGHT",
         "end_dot_num": null,
@@ -381,18 +381,18 @@
         "bit_idx": 0,
         "bit_type": "Bit.ONE",
         "cell_pos": [
-          7,
-          3
+          3,
+          9
         ],
         "start_dot_num": null,
         "start_dot_pos": null,
         "start_dot_dir": null,
         "end_dot_num": 0,
         "end_dot_pos": [
-          8,
-          2
+          2,
+          8
         ],
-        "end_dot_dir": "Direction.TOP_RIGHT"
+        "end_dot_dir": "Direction.TOP_LEFT"
       },
       {
         "piece_idx": 0,
@@ -400,98 +400,16 @@
         "bit_idx": 1,
         "bit_type": "Bit.TWO_A",
         "cell_pos": [
-          7,
-          1
-        ],
-        "start_dot_num": 0,
-        "start_dot_pos": [
-          8,
-          2
-        ],
-        "start_dot_dir": "Direction.BOTTOM_RIGHT",
-        "end_dot_num": 1,
-        "end_dot_pos": [
-          6,
-          2
-        ],
-        "end_dot_dir": "Direction.BOTTOM_LEFT"
-      },
-      {
-        "piece_idx": 0,
-        "piece_type": "Piece.RED",
-        "bit_idx": 2,
-        "bit_type": "Bit.TWO_A",
-        "cell_pos": [
-          5,
-          1
-        ],
-        "start_dot_num": 0,
-        "start_dot_pos": [
-          6,
-          2
-        ],
-        "start_dot_dir": "Direction.BOTTOM_RIGHT",
-        "end_dot_num": 1,
-        "end_dot_pos": [
-          4,
-          2
-        ],
-        "end_dot_dir": "Direction.BOTTOM_LEFT"
-      },
-      {
-        "piece_idx": 0,
-        "piece_type": "Piece.RED",
-        "bit_idx": 3,
-        "bit_type": "Bit.ONE",
-        "cell_pos": [
-          3,
-          3
-        ],
-        "start_dot_num": 0,
-        "start_dot_pos": [
-          4,
-          2
-        ],
-        "start_dot_dir": "Direction.TOP_RIGHT",
-        "end_dot_num": null,
-        "end_dot_pos": null,
-        "end_dot_dir": null
-      },
-      {
-        "piece_idx": 1,
-        "piece_type": "Piece.YELLOW",
-        "bit_idx": 0,
-        "bit_type": "Bit.ONE",
-        "cell_pos": [
-          5,
-          7
-        ],
-        "start_dot_num": null,
-        "start_dot_pos": null,
-        "start_dot_dir": null,
-        "end_dot_num": 0,
-        "end_dot_pos": [
-          4,
-          8
-        ],
-        "end_dot_dir": "Direction.BOTTOM_LEFT"
-      },
-      {
-        "piece_idx": 1,
-        "piece_type": "Piece.YELLOW",
-        "bit_idx": 1,
-        "bit_type": "Bit.TWO_B",
-        "cell_pos": [
           3,
           7
         ],
         "start_dot_num": 0,
         "start_dot_pos": [
-          4,
+          2,
           8
         ],
-        "start_dot_dir": "Direction.BOTTOM_RIGHT",
-        "end_dot_num": 2,
+        "start_dot_dir": "Direction.BOTTOM_LEFT",
+        "end_dot_num": 1,
         "end_dot_pos": [
           2,
           6
@@ -499,10 +417,10 @@
         "end_dot_dir": "Direction.TOP_LEFT"
       },
       {
-        "piece_idx": 1,
-        "piece_type": "Piece.YELLOW",
+        "piece_idx": 0,
+        "piece_type": "Piece.RED",
         "bit_idx": 2,
-        "bit_type": "Bit.TWO_B",
+        "bit_type": "Bit.TWO_A",
         "cell_pos": [
           3,
           5
@@ -513,304 +431,12 @@
           6
         ],
         "start_dot_dir": "Direction.BOTTOM_LEFT",
-        "end_dot_num": 2,
-        "end_dot_pos": [
-          4,
-          4
-        ],
-        "end_dot_dir": "Direction.TOP_RIGHT"
-      },
-      {
-        "piece_idx": 1,
-        "piece_type": "Piece.YELLOW",
-        "bit_idx": 3,
-        "bit_type": "Bit.ONE",
-        "cell_pos": [
-          5,
-          3
-        ],
-        "start_dot_num": 0,
-        "start_dot_pos": [
-          4,
-          4
-        ],
-        "start_dot_dir": "Direction.BOTTOM_LEFT",
-        "end_dot_num": null,
-        "end_dot_pos": null,
-        "end_dot_dir": null
-      },
-      {
-        "piece_idx": 2,
-        "piece_type": "Piece.GREEN",
-        "bit_idx": 0,
-        "bit_type": "Bit.ONE",
-        "cell_pos": [
-          9,
-          7
-        ],
-        "start_dot_num": null,
-        "start_dot_pos": null,
-        "start_dot_dir": null,
-        "end_dot_num": 0,
-        "end_dot_pos": [
-          10,
-          8
-        ],
-        "end_dot_dir": "Direction.BOTTOM_RIGHT"
-      },
-      {
-        "piece_idx": 2,
-        "piece_type": "Piece.GREEN",
-        "bit_idx": 1,
-        "bit_type": "Bit.TWO_A",
-        "cell_pos": [
-          9,
-          9
-        ],
-        "start_dot_num": 1,
-        "start_dot_pos": [
-          10,
-          8
-        ],
-        "start_dot_dir": "Direction.TOP_RIGHT",
-        "end_dot_num": 0,
-        "end_dot_pos": [
-          8,
-          8
-        ],
-        "end_dot_dir": "Direction.TOP_LEFT"
-      },
-      {
-        "piece_idx": 2,
-        "piece_type": "Piece.GREEN",
-        "bit_idx": 2,
-        "bit_type": "Bit.TWO_B",
-        "cell_pos": [
-          7,
-          7
-        ],
-        "start_dot_num": 0,
-        "start_dot_pos": [
-          8,
-          8
-        ],
-        "start_dot_dir": "Direction.BOTTOM_RIGHT",
-        "end_dot_num": 2,
-        "end_dot_pos": [
-          6,
-          6
-        ],
-        "end_dot_dir": "Direction.TOP_LEFT"
-      },
-      {
-        "piece_idx": 2,
-        "piece_type": "Piece.GREEN",
-        "bit_idx": 3,
-        "bit_type": "Bit.TWO_A",
-        "cell_pos": [
-          7,
-          5
-        ],
-        "start_dot_num": 0,
-        "start_dot_pos": [
-          6,
-          6
-        ],
-        "start_dot_dir": "Direction.BOTTOM_LEFT",
         "end_dot_num": 1,
-        "end_dot_pos": [
-          6,
-          4
-        ],
-        "end_dot_dir": "Direction.TOP_LEFT"
-      },
-      {
-        "piece_idx": 2,
-        "piece_type": "Piece.GREEN",
-        "bit_idx": 4,
-        "bit_type": "Bit.ONE",
-        "cell_pos": [
-          5,
-          5
-        ],
-        "start_dot_num": 0,
-        "start_dot_pos": [
-          6,
-          4
-        ],
-        "start_dot_dir": "Direction.TOP_RIGHT",
-        "end_dot_num": null,
-        "end_dot_pos": null,
-        "end_dot_dir": null
-      },
-      {
-        "piece_idx": 3,
-        "piece_type": "Piece.BLUE",
-        "bit_idx": 0,
-        "bit_type": "Bit.ONE",
-        "cell_pos": [
-          7,
-          11
-        ],
-        "start_dot_num": null,
-        "start_dot_pos": null,
-        "start_dot_dir": null,
-        "end_dot_num": 0,
-        "end_dot_pos": [
-          8,
-          10
-        ],
-        "end_dot_dir": "Direction.TOP_RIGHT"
-      },
-      {
-        "piece_idx": 3,
-        "piece_type": "Piece.BLUE",
-        "bit_idx": 1,
-        "bit_type": "Bit.TWO_B",
-        "cell_pos": [
-          7,
-          9
-        ],
-        "start_dot_num": 0,
-        "start_dot_pos": [
-          8,
-          10
-        ],
-        "start_dot_dir": "Direction.BOTTOM_RIGHT",
-        "end_dot_num": 2,
-        "end_dot_pos": [
-          6,
-          8
-        ],
-        "end_dot_dir": "Direction.TOP_LEFT"
-      },
-      {
-        "piece_idx": 3,
-        "piece_type": "Piece.BLUE",
-        "bit_idx": 2,
-        "bit_type": "Bit.TWO_B",
-        "cell_pos": [
-          5,
-          9
-        ],
-        "start_dot_num": 0,
-        "start_dot_pos": [
-          6,
-          8
-        ],
-        "start_dot_dir": "Direction.TOP_RIGHT",
-        "end_dot_num": 2,
-        "end_dot_pos": [
-          4,
-          10
-        ],
-        "end_dot_dir": "Direction.BOTTOM_LEFT"
-      },
-      {
-        "piece_idx": 3,
-        "piece_type": "Piece.BLUE",
-        "bit_idx": 3,
-        "bit_type": "Bit.TWO_B",
-        "cell_pos": [
-          3,
-          9
-        ],
-        "start_dot_num": 0,
-        "start_dot_pos": [
-          4,
-          10
-        ],
-        "start_dot_dir": "Direction.BOTTOM_RIGHT",
-        "end_dot_num": 2,
         "end_dot_pos": [
           2,
-          8
+          4
         ],
         "end_dot_dir": "Direction.TOP_LEFT"
-      },
-      {
-        "piece_idx": 3,
-        "piece_type": "Piece.BLUE",
-        "bit_idx": 4,
-        "bit_type": "Bit.ONE",
-        "cell_pos": [
-          1,
-          7
-        ],
-        "start_dot_num": 0,
-        "start_dot_pos": [
-          2,
-          8
-        ],
-        "start_dot_dir": "Direction.BOTTOM_RIGHT",
-        "end_dot_num": null,
-        "end_dot_pos": null,
-        "end_dot_dir": null
-      }
-    ],
-    [
-      {
-        "piece_idx": 0,
-        "piece_type": "Piece.RED",
-        "bit_idx": 0,
-        "bit_type": "Bit.ONE",
-        "cell_pos": [
-          7,
-          3
-        ],
-        "start_dot_num": null,
-        "start_dot_pos": null,
-        "start_dot_dir": null,
-        "end_dot_num": 0,
-        "end_dot_pos": [
-          8,
-          2
-        ],
-        "end_dot_dir": "Direction.TOP_RIGHT"
-      },
-      {
-        "piece_idx": 0,
-        "piece_type": "Piece.RED",
-        "bit_idx": 1,
-        "bit_type": "Bit.TWO_A",
-        "cell_pos": [
-          7,
-          1
-        ],
-        "start_dot_num": 0,
-        "start_dot_pos": [
-          8,
-          2
-        ],
-        "start_dot_dir": "Direction.BOTTOM_RIGHT",
-        "end_dot_num": 1,
-        "end_dot_pos": [
-          6,
-          2
-        ],
-        "end_dot_dir": "Direction.BOTTOM_LEFT"
-      },
-      {
-        "piece_idx": 0,
-        "piece_type": "Piece.RED",
-        "bit_idx": 2,
-        "bit_type": "Bit.TWO_A",
-        "cell_pos": [
-          5,
-          1
-        ],
-        "start_dot_num": 0,
-        "start_dot_pos": [
-          6,
-          2
-        ],
-        "start_dot_dir": "Direction.BOTTOM_RIGHT",
-        "end_dot_num": 1,
-        "end_dot_pos": [
-          4,
-          2
-        ],
-        "end_dot_dir": "Direction.BOTTOM_LEFT"
       },
       {
         "piece_idx": 0,
@@ -823,10 +449,10 @@
         ],
         "start_dot_num": 0,
         "start_dot_pos": [
-          4,
-          2
+          2,
+          4
         ],
-        "start_dot_dir": "Direction.TOP_RIGHT",
+        "start_dot_dir": "Direction.BOTTOM_LEFT",
         "end_dot_num": null,
         "end_dot_pos": null,
         "end_dot_dir": null
@@ -837,7 +463,7 @@
         "bit_idx": 0,
         "bit_type": "Bit.ONE",
         "cell_pos": [
-          5,
+          7,
           7
         ],
         "start_dot_num": null,
@@ -845,10 +471,10 @@
         "start_dot_dir": null,
         "end_dot_num": 0,
         "end_dot_pos": [
-          4,
-          8
+          8,
+          6
         ],
-        "end_dot_dir": "Direction.BOTTOM_LEFT"
+        "end_dot_dir": "Direction.TOP_RIGHT"
       },
       {
         "piece_idx": 1,
@@ -856,19 +482,19 @@
         "bit_idx": 1,
         "bit_type": "Bit.TWO_B",
         "cell_pos": [
-          3,
-          7
+          7,
+          5
         ],
         "start_dot_num": 0,
         "start_dot_pos": [
-          4,
-          8
+          8,
+          6
         ],
         "start_dot_dir": "Direction.BOTTOM_RIGHT",
         "end_dot_num": 2,
         "end_dot_pos": [
-          2,
-          6
+          6,
+          4
         ],
         "end_dot_dir": "Direction.TOP_LEFT"
       },
@@ -878,21 +504,21 @@
         "bit_idx": 2,
         "bit_type": "Bit.TWO_B",
         "cell_pos": [
-          3,
+          5,
           5
         ],
         "start_dot_num": 0,
         "start_dot_pos": [
-          2,
-          6
+          6,
+          4
         ],
-        "start_dot_dir": "Direction.BOTTOM_LEFT",
+        "start_dot_dir": "Direction.TOP_RIGHT",
         "end_dot_num": 2,
         "end_dot_pos": [
           4,
-          4
+          6
         ],
-        "end_dot_dir": "Direction.TOP_RIGHT"
+        "end_dot_dir": "Direction.BOTTOM_LEFT"
       },
       {
         "piece_idx": 1,
@@ -901,12 +527,12 @@
         "bit_type": "Bit.ONE",
         "cell_pos": [
           5,
-          5
+          7
         ],
         "start_dot_num": 0,
         "start_dot_pos": [
           4,
-          4
+          6
         ],
         "start_dot_dir": "Direction.TOP_LEFT",
         "end_dot_num": null,
@@ -919,18 +545,18 @@
         "bit_idx": 0,
         "bit_type": "Bit.ONE",
         "cell_pos": [
-          9,
-          7
+          7,
+          3
         ],
         "start_dot_num": null,
         "start_dot_pos": null,
         "start_dot_dir": null,
         "end_dot_num": 0,
         "end_dot_pos": [
-          10,
-          8
+          6,
+          2
         ],
-        "end_dot_dir": "Direction.BOTTOM_RIGHT"
+        "end_dot_dir": "Direction.TOP_LEFT"
       },
       {
         "piece_idx": 2,
@@ -938,19 +564,19 @@
         "bit_idx": 1,
         "bit_type": "Bit.TWO_A",
         "cell_pos": [
-          9,
-          9
+          5,
+          3
         ],
         "start_dot_num": 1,
         "start_dot_pos": [
-          10,
-          8
+          6,
+          2
         ],
         "start_dot_dir": "Direction.TOP_RIGHT",
         "end_dot_num": 0,
         "end_dot_pos": [
-          8,
-          8
+          4,
+          2
         ],
         "end_dot_dir": "Direction.TOP_LEFT"
       },
@@ -960,19 +586,19 @@
         "bit_idx": 2,
         "bit_type": "Bit.TWO_B",
         "cell_pos": [
-          7,
-          7
+          3,
+          1
         ],
         "start_dot_num": 0,
         "start_dot_pos": [
-          8,
-          8
+          4,
+          2
         ],
         "start_dot_dir": "Direction.BOTTOM_RIGHT",
         "end_dot_num": 2,
         "end_dot_pos": [
-          6,
-          6
+          2,
+          0
         ],
         "end_dot_dir": "Direction.TOP_LEFT"
       },
@@ -982,21 +608,21 @@
         "bit_idx": 3,
         "bit_type": "Bit.TWO_A",
         "cell_pos": [
-          7,
-          5
+          1,
+          1
         ],
         "start_dot_num": 0,
         "start_dot_pos": [
-          6,
-          6
+          2,
+          0
         ],
-        "start_dot_dir": "Direction.BOTTOM_LEFT",
+        "start_dot_dir": "Direction.TOP_RIGHT",
         "end_dot_num": 1,
         "end_dot_pos": [
-          6,
-          4
+          2,
+          2
         ],
-        "end_dot_dir": "Direction.TOP_LEFT"
+        "end_dot_dir": "Direction.BOTTOM_RIGHT"
       },
       {
         "piece_idx": 2,
@@ -1004,15 +630,15 @@
         "bit_idx": 4,
         "bit_type": "Bit.ONE",
         "cell_pos": [
-          5,
+          1,
           3
         ],
         "start_dot_num": 0,
         "start_dot_pos": [
-          6,
-          4
+          2,
+          2
         ],
-        "start_dot_dir": "Direction.BOTTOM_RIGHT",
+        "start_dot_dir": "Direction.TOP_RIGHT",
         "end_dot_num": null,
         "end_dot_pos": null,
         "end_dot_dir": null
@@ -1023,8 +649,8 @@
         "bit_idx": 0,
         "bit_type": "Bit.ONE",
         "cell_pos": [
-          7,
-          11
+          9,
+          9
         ],
         "start_dot_num": null,
         "start_dot_pos": null,
@@ -1032,9 +658,9 @@
         "end_dot_num": 0,
         "end_dot_pos": [
           8,
-          10
+          8
         ],
-        "end_dot_dir": "Direction.TOP_RIGHT"
+        "end_dot_dir": "Direction.TOP_LEFT"
       },
       {
         "piece_idx": 3,
@@ -1042,21 +668,21 @@
         "bit_idx": 1,
         "bit_type": "Bit.TWO_B",
         "cell_pos": [
-          7,
-          9
+          9,
+          7
         ],
         "start_dot_num": 0,
         "start_dot_pos": [
           8,
-          10
-        ],
-        "start_dot_dir": "Direction.BOTTOM_RIGHT",
-        "end_dot_num": 2,
-        "end_dot_pos": [
-          6,
           8
         ],
-        "end_dot_dir": "Direction.TOP_LEFT"
+        "start_dot_dir": "Direction.BOTTOM_LEFT",
+        "end_dot_num": 2,
+        "end_dot_pos": [
+          10,
+          6
+        ],
+        "end_dot_dir": "Direction.TOP_RIGHT"
       },
       {
         "piece_idx": 3,
@@ -1064,21 +690,21 @@
         "bit_idx": 2,
         "bit_type": "Bit.TWO_B",
         "cell_pos": [
-          5,
-          9
+          9,
+          5
         ],
         "start_dot_num": 0,
         "start_dot_pos": [
-          6,
-          8
+          10,
+          6
         ],
-        "start_dot_dir": "Direction.TOP_RIGHT",
+        "start_dot_dir": "Direction.BOTTOM_RIGHT",
         "end_dot_num": 2,
         "end_dot_pos": [
-          4,
-          10
+          8,
+          4
         ],
-        "end_dot_dir": "Direction.BOTTOM_LEFT"
+        "end_dot_dir": "Direction.TOP_LEFT"
       },
       {
         "piece_idx": 3,
@@ -1086,21 +712,21 @@
         "bit_idx": 3,
         "bit_type": "Bit.TWO_B",
         "cell_pos": [
-          3,
-          9
+          9,
+          3
         ],
         "start_dot_num": 0,
         "start_dot_pos": [
-          4,
-          10
+          8,
+          4
         ],
-        "start_dot_dir": "Direction.BOTTOM_RIGHT",
+        "start_dot_dir": "Direction.BOTTOM_LEFT",
         "end_dot_num": 2,
         "end_dot_pos": [
-          2,
-          8
+          10,
+          2
         ],
-        "end_dot_dir": "Direction.TOP_LEFT"
+        "end_dot_dir": "Direction.TOP_RIGHT"
       },
       {
         "piece_idx": 3,
@@ -1108,13 +734,13 @@
         "bit_idx": 4,
         "bit_type": "Bit.ONE",
         "cell_pos": [
-          1,
-          7
+          9,
+          1
         ],
         "start_dot_num": 0,
         "start_dot_pos": [
-          2,
-          8
+          10,
+          2
         ],
         "start_dot_dir": "Direction.BOTTOM_RIGHT",
         "end_dot_num": null,
@@ -1123,5 +749,5 @@
       }
     ]
   ],
-  "duration": 90
+  "duration": 56
 }
