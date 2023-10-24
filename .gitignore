@@ -4,6 +4,7 @@ photos/
 screenshots/
 3d-models/
 edit.txt
+.DS_Store
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

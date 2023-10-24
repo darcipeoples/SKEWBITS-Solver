@@ -6,6 +6,13 @@ import time
 from typing import Any, Dict, List, Tuple
 from PIL import Image, ImageDraw
 
+MAX_SOLN_IMAGES = 20
+
+EMPTY_DOT = 'O'
+EMPTY_CELL = 'X'
+HORIZ_DIV = '-'
+VERT_DIV = '|'
+
 class Direction(Enum):
   UP = (0,-1)
   LEFT = (-1,0)
@@ -87,17 +94,12 @@ PIECE_INFO = {
     ],
   },
   Piece.EMPTY: {
-    'bit_symbol': 'X',
-    'dot_symbol': 'O',
+    'bit_symbol': EMPTY_CELL,
+    'dot_symbol': EMPTY_DOT,
     'ansi_color': 8,
     'image_color': (240, 240, 240),
   },
 }
-
-EMPTY_DOT = PIECE_INFO[Piece.EMPTY]['dot_symbol']
-EMPTY_CELL = PIECE_INFO[Piece.EMPTY]['bit_symbol']
-HORIZ_DIV = '-'
-VERT_DIV = '|'
 
 ######## GRID UTILS ########
 
@@ -374,12 +376,12 @@ def get_solution_image(grid: Grid, solution, cd: int = 20):
 # remaining_piece_bits:   the bits we haven't set yet
 # open_cells:             cells that aren't set yet
 # open_dots:              dots that aren't set yet
-def solve(set_piece_bits, remaining_piece_bits, open_cells: List[Tuple[int, int]], open_dots: List[Tuple[int, int]]):
+def solve(set_piece_bits, remaining_piece_bits, open_cells: List[Tuple[int, int]], open_dots: List[Tuple[int, int]], solve_all):
   print_partial_solution(set_piece_bits, remaining_piece_bits, open_cells, open_dots)
 
-  # If no more remaining piece bits, we found the solution
+  # If no more remaining piece bits, we found a solution
   if len(remaining_piece_bits) == 0:
-    return set_piece_bits
+    return [set_piece_bits]
   
   # TODO: See if we can get rid of extra copying
   # Get the next bit to set & remove it from the remaining bits
@@ -395,6 +397,9 @@ def solve(set_piece_bits, remaining_piece_bits, open_cells: List[Tuple[int, int]
     prev_bit = set_piece_bits[-1]
     if prev_bit['piece_idx'] != curr_bit['piece_idx']:
       starting_a_new_piece = True
+
+  all_solutions = []
+  
   # If starting a new piece, we have to try all of the starting positions and orientations
   if starting_a_new_piece:
     # Put the first bit in any location
@@ -433,17 +438,20 @@ def solve(set_piece_bits, remaining_piece_bits, open_cells: List[Tuple[int, int]
           continue
         new_open_dots.remove(end_dot_pos)
 
-        solution = solve(
+        child_solutions = solve(
           new_set_piece_bits,
           new_remaining_piece_bits,
           new_open_cells,
-          new_open_dots
+          new_open_dots,
+          solve_all
         )
 
-        if solution is None:
+        if child_solutions == []:
           continue
-        return solution
-    return None
+        if not solve_all:
+          return child_solutions
+        all_solutions.extend(child_solutions)
+    return all_solutions
 
   # If continuing a piece, try rotating all around the start dot
   for dir_from_start_dot in DIAGONALS_CLOCKWISE:
@@ -497,32 +505,49 @@ def solve(set_piece_bits, remaining_piece_bits, open_cells: List[Tuple[int, int]
     if end_dot_pos is not None:
       new_open_dots.remove(end_dot_pos)
 
-    solution = solve(
+    child_solutions = solve(
       new_set_piece_bits,
       new_remaining_piece_bits,
       new_open_cells,
-      new_open_dots
+      new_open_dots,
+      solve_all
     )
 
-    if solution is None:
+    if child_solutions == []:
       continue
-    return solution
-  return None
+    if not solve_all:
+      return child_solutions
+    all_solutions.extend(child_solutions)
+  return all_solutions
 
 
 ######## INPUT PARSING FUNCTIONS ########
 
+def parse_solution_json_obj(solution_obj):
+  solution_obj = deepcopy(solution_obj)
+  for bit in solution_obj:
+    bit['piece_type'] = Piece[bit['piece_type'].split('Piece.')[1]]
+    bit['bit_type'] = Bit[bit['bit_type'].split('Bit.')[1]]
+    if bit['start_dot_dir'] is not None:
+      bit['start_dot_dir'] = Direction[bit['start_dot_dir'].split('Direction.')[1]]
+    if bit['end_dot_dir'] is not None:
+      bit['end_dot_dir'] = Direction[bit['end_dot_dir'].split('Direction.')[1]]
+  return solution_obj
+  
+
 def load_solution_from_file(filename):
   with open(f'solutions/json/{filename}') as f:
     solution = json.load(f)['solution']
-    for bit in solution:
-      bit['piece_type'] = Piece[bit['piece_type'].split('Piece.')[1]]
-      bit['bit_type'] = Bit[bit['bit_type'].split('Bit.')[1]]
-      if bit['start_dot_dir'] is not None:
-        bit['start_dot_dir'] = Direction[bit['start_dot_dir'].split('Direction.')[1]]
-      if bit['end_dot_dir'] is not None:
-        bit['end_dot_dir'] = Direction[bit['end_dot_dir'].split('Direction.')[1]]
+    solution = parse_solution_json_obj(solution)
   return solution
+
+def load_solutions_from_file(filename):
+  parsed_solutions = []
+  with open(f'solutions/json/{filename}') as f:
+    solutions = json.load(f)['solutions']
+    for solution in solutions:
+      parsed_solutions.append(parse_solution_json_obj(solution))
+  return parsed_solutions
 
 def load_grid_from_file(filename):
   grid = [list(x.rstrip().upper()) for x in open(f'puzzles/{filename}', 'r').readlines()]
@@ -565,14 +590,36 @@ def get_grid_mark_empty_dots(grid):
         grid[y][x] = EMPTY_DOT
   return grid
 
+# Dedupe solutions based just on the color and location of the bits and dots (ignore hinge direction)
+def dedupe_solutions(solutions):
+  solution_map = {}
+  for solution in solutions:
+    dot_coords_to_piece_type = {}
+    bit_coords_to_piece_type = {}
+    for bit in solution:
+      piece_type = bit['piece_type']
+      cell_pos = bit['cell_pos']
+      start_dot_pos = bit['start_dot_pos']
+      end_dot_pos = bit['end_dot_pos']
+      bit_coords_to_piece_type[tuple(cell_pos)] = piece_type
+      if start_dot_pos is not None:
+        dot_coords_to_piece_type[tuple(start_dot_pos)] = piece_type
+      if end_dot_pos is not None:
+        dot_coords_to_piece_type[tuple(end_dot_pos)] = piece_type
+    key = str(sorted(bit_coords_to_piece_type.items())) + str(sorted(dot_coords_to_piece_type.items())) 
+    print(key)
+    solution_map[key] = solution
+  return list(solution_map.values())
 
 ######### MAIN FUNCTION ########
 
 def main():
   parser = argparse.ArgumentParser(description="Solver for Make Anything's SKEWBITS puzzle.")
   parser.add_argument('filename', help='The puzzle filename to read from.')
+  parser.add_argument('--solve-all', action='store_true', help='Whether to calculate all solutions or just the first found.')
   args = parser.parse_args()
   puzzle_filename = args.filename
+  solve_all = args.solve_all
 
   all_pieces = [Piece.RED, Piece.YELLOW, Piece.GREEN, Piece.BLUE]
 
@@ -604,25 +651,32 @@ def main():
   all_open_dots = get_open_dots(grid)
 
   start_time = time.time()
-  solution = solve([], all_piece_bits, all_open_cells, all_open_dots)
+  solutions = solve([], all_piece_bits, all_open_cells, all_open_dots, solve_all)
 
-  if solution is None:
-    print('Did not find a solution. The puzzle is likely impossible')
+  if solutions == []:
+    print('Did not find any solutions. The puzzle is likely impossible')
     return
-
-  print(solution)
-
-  print(get_soln_str(grid, solution))
   
-  image = get_solution_image(grid, solution)
-  image.save(f"solutions/images/{puzzle_name}.png")
+  total_solutions = len(solutions)
+  solutions = dedupe_solutions(solutions)
+  print(solutions)
+  print(f"{len(solutions)} solutions (deduped from {total_solutions})")
 
-  with open(f"solutions/json/{puzzle_name}.json", 'w+') as f:
+  with open(f"solutions/json/{puzzle_name}{'-all' if solve_all else ''}.json", 'w+') as f:
     result = {
-      'solution': solution,
+      'solutions': solutions,
       'duration': time.time() - start_time,
     }
     json.dump(result, f, default=str)
+
+  for i, solution in enumerate(solutions):
+    print(get_soln_str(grid, solution))
+
+    if i > MAX_SOLN_IMAGES:
+      print(f"WARNING: There are more than {MAX_SOLN_IMAGES} solutions ({len(solutions)}). Only saving the first {MAX_SOLN_IMAGES} images.")
+  
+    image = get_solution_image(grid, solution)
+    image.save(f"solutions/images/{puzzle_name}-{i}.png")
   
 if __name__ == '__main__':
   main()
