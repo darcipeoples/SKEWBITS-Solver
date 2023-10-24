@@ -1,3 +1,4 @@
+import argparse
 from copy import deepcopy
 from enum import Enum
 import json
@@ -6,15 +7,21 @@ from typing import Any, Dict, List, Tuple
 from PIL import Image, ImageDraw
 
 class Direction(Enum):
-  BR = (1,1)
-  BL = (-1,1)
-  TR = (1,-1)
-  TL = (-1,-1)
+  UP = (0,-1)
+  LEFT = (-1,0)
+  DOWN = (0,1)
+  RIGHT = (1,0)
 
-class Bit(Enum):
-  ONE = '1'
-  TWO_A = '2a'
-  TWO_B = '2b'
+  TOP_LEFT = (-1,-1)
+  TOP_RIGHT = (1,-1)
+  BOTTOM_RIGHT = (1,1)
+  BOTTOM_LEFT = (-1,1)
+
+DIAGONALS_CLOCKWISE = [Direction.TOP_LEFT, Direction.TOP_RIGHT, Direction.BOTTOM_RIGHT, Direction.BOTTOM_LEFT]
+ADJACENT_CLOCKWISE = [Direction.UP, Direction.LEFT, Direction.DOWN, Direction.RIGHT]
+
+Grid = List[List[str]]
+Coord = Tuple[int, int]
 
 class Piece(Enum):
   RED = 'red'
@@ -23,11 +30,10 @@ class Piece(Enum):
   GREEN = 'green'
   EMPTY = 'empty'
 
-Grid = List[List[str]]
-
-Coord = Tuple[int, int]
-
-DOTS_CLOCKWISE = [Direction.TL, Direction.TR, Direction.BR, Direction.BL]
+class Bit(Enum):
+  ONE = '1'
+  TWO_A = '2a'
+  TWO_B = '2b'
 
 PIECE_INFO = {
   Piece.RED: {
@@ -90,6 +96,8 @@ PIECE_INFO = {
 
 EMPTY_DOT = PIECE_INFO[Piece.EMPTY]['dot_symbol']
 EMPTY_CELL = PIECE_INFO[Piece.EMPTY]['bit_symbol']
+HORIZ_DIV = '-'
+VERT_DIV = '|'
 
 ######## GRID UTILS ########
 
@@ -112,9 +120,9 @@ def get_direction_from_offset(offset: Coord) -> Direction:
   raise Exception("Unable to cast offset to Direction enum")
 
 def get_inverse_direction(direction: Direction) -> Direction: 
-  dir_idx = DOTS_CLOCKWISE.index(direction)
-  inverse_dir_idx = (dir_idx + (len(DOTS_CLOCKWISE) // 2)) % len(DOTS_CLOCKWISE)
-  return DOTS_CLOCKWISE[inverse_dir_idx]
+  dir_idx = DIAGONALS_CLOCKWISE.index(direction)
+  inverse_dir_idx = (dir_idx + (len(DIAGONALS_CLOCKWISE) // 2)) % len(DIAGONALS_CLOCKWISE)
+  return DIAGONALS_CLOCKWISE[inverse_dir_idx]
 
 def get_direction_between(from_pos: Coord, to_pos: Coord) -> Direction:
   x1, y1 = from_pos
@@ -126,8 +134,8 @@ def get_coord_in_direction(coord: Coord, direction: Direction) -> Coord:
   return (coord[0] + direction.value[0], coord[1] + direction.value[1])
 
 def rotate_direction(direction: Direction, clockwise_rotations: int) -> Direction:
-  target_dir_idx = (DOTS_CLOCKWISE.index(direction) + clockwise_rotations) % len(DOTS_CLOCKWISE)
-  return DOTS_CLOCKWISE[target_dir_idx]
+  target_dir_idx = (DIAGONALS_CLOCKWISE.index(direction) + clockwise_rotations) % len(DIAGONALS_CLOCKWISE)
+  return DIAGONALS_CLOCKWISE[target_dir_idx]
 
 
 ######## BIT TYPE HELPERS ########
@@ -247,7 +255,7 @@ def dot_str(piece_type: Piece) -> str:
   return u"\u001b[38;5;" + str(ansi_color) + "m" + dot_symbol + u"\u001b[0m"
 
 def get_soln_str(grid: Grid, solution) -> str:
-  M, N = max([len(line) for line in grid]) // 2, len(grid) // 2
+  grid = deepcopy(grid)
 
   for bit in solution:
     bit_x, bit_y = bit['cell_pos']
@@ -392,7 +400,7 @@ def solve(set_piece_bits, remaining_piece_bits, open_cells: List[Tuple[int, int]
     # Put the first bit in any location
     for curr_bit_pos in open_cells:
       # Give the first bit any orientation (aka put its end dot anywhere)
-      for end_dot_dir in DOTS_CLOCKWISE:
+      for end_dot_dir in DIAGONALS_CLOCKWISE:
         end_dot_num = 0
         end_dot_pos = get_coord_in_direction(curr_bit_pos, end_dot_dir)
 
@@ -438,7 +446,7 @@ def solve(set_piece_bits, remaining_piece_bits, open_cells: List[Tuple[int, int]
     return None
 
   # If continuing a piece, try rotating all around the start dot
-  for dir_from_start_dot in DOTS_CLOCKWISE:
+  for dir_from_start_dot in DIAGONALS_CLOCKWISE:
     # If continuing a piece, fetch where our last dot was
     prev_bit = set_piece_bits[-1]
     
@@ -501,9 +509,71 @@ def solve(set_piece_bits, remaining_piece_bits, open_cells: List[Tuple[int, int]
     return solution
   return None
 
+
+######## INPUT PARSING FUNCTIONS ########
+
+def load_solution_from_file(filename):
+  with open(f'solutions/json/{filename}') as f:
+    solution = json.load(f)['solution']
+    for bit in solution:
+      bit['piece_type'] = Piece[bit['piece_type'].split('Piece.')[1]]
+      bit['bit_type'] = Bit[bit['bit_type'].split('Bit.')[1]]
+      if bit['start_dot_dir'] is not None:
+        bit['start_dot_dir'] = Direction[bit['start_dot_dir'].split('Direction.')[1]]
+      if bit['end_dot_dir'] is not None:
+        bit['end_dot_dir'] = Direction[bit['end_dot_dir'].split('Direction.')[1]]
+  return solution
+
+def load_grid_from_file(filename):
+  grid = [list(x.rstrip().upper()) for x in open(f'puzzles/{filename}', 'r').readlines()]
+  grid = get_grid_mark_empty_dots(grid)
+  return grid
+
+# Replace CELLS surrounded by dividers with EMPTY_CELL
+def get_grid_mark_empty_cells(grid):
+  grid = deepcopy(grid)
+  for y, line in enumerate(grid):
+    for x, cell in enumerate(line):
+      if y % 2 != 1 or x % 2 != 1:
+        continue
+      neighbor_symbols = []
+      for direction in ADJACENT_CLOCKWISE:
+        nx, ny = get_coord_in_direction((x, y), direction)
+        if ny >= len(grid) or ny < 0 or nx >= len(grid[ny]) or nx < 0:
+          neighbor_symbols.append(None)
+          continue
+        neighbor_symbols.append(grid[ny][nx])
+      if neighbor_symbols == [HORIZ_DIV, VERT_DIV]*2:
+        grid[y][x] = EMPTY_CELL
+  return grid
+
+# Replace dots surrounded by EMPTY_CELL with EMPTY_DOT
+def get_grid_mark_empty_dots(grid):
+  grid = deepcopy(grid)
+  for y, line in enumerate(grid):
+    for x, cell in enumerate(line):
+      if y % 2 != 0 or x % 2 != 0:
+        continue
+      neighbor_symbols = []
+      for direction in DIAGONALS_CLOCKWISE:
+        nx, ny = get_coord_in_direction((x, y), direction)
+        if ny >= len(grid) or ny < 0 or nx >= len(grid[ny]) or nx < 0:
+          neighbor_symbols.append(None)
+          continue
+        neighbor_symbols.append(grid[ny][nx])
+      if set(neighbor_symbols) == {EMPTY_CELL}:
+        grid[y][x] = EMPTY_DOT
+  return grid
+
+
 ######### MAIN FUNCTION ########
 
 def main():
+  parser = argparse.ArgumentParser(description="Solver for Make Anything's SKEWBITS puzzle.")
+  parser.add_argument('filename', help='The puzzle filename to read from.')
+  args = parser.parse_args()
+  puzzle_filename = args.filename
+
   all_pieces = [Piece.RED, Piece.YELLOW, Piece.GREEN, Piece.BLUE]
 
   all_piece_bits = []
@@ -526,12 +596,9 @@ def main():
 
   # print(get_remaining_bits_summary(all_piece_bits))
 
-  puzzle = '024.txt'
-  puzzle_name = puzzle.split('.txt')[0]
+  puzzle_name = puzzle_filename.lower().split('.txt')[0]
 
-  grid = [list(x.rstrip()) for x in open(f'puzzles/{puzzle}', 'r').readlines()]
-
-  # print(get_grid_str(grid))
+  grid = load_grid_from_file(puzzle_filename)
 
   all_open_cells = get_open_cells(grid)
   all_open_dots = get_open_dots(grid)
@@ -541,8 +608,11 @@ def main():
 
   if solution is None:
     print('Did not find a solution. The puzzle is likely impossible')
+    return
 
   print(solution)
+
+  print(get_soln_str(grid, solution))
   
   image = get_solution_image(grid, solution)
   image.save(f"solutions/images/{puzzle_name}.png")
