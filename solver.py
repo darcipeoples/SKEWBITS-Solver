@@ -386,7 +386,7 @@ def solve(set_piece_bits, remaining_piece_bits, open_cells: List[Tuple[int, int]
   # TODO: See if we can get rid of extra copying
   # Get the next bit to set & remove it from the remaining bits
   curr_bit = remaining_piece_bits[0]
-  new_remaining_piece_bits = deepcopy(remaining_piece_bits[1:])
+  new_remaining_piece_bits = remaining_piece_bits[1:]
 
   starting_a_new_piece = False
   # If no bits set yet, we're starting a new piece
@@ -412,7 +412,7 @@ def solve(set_piece_bits, remaining_piece_bits, open_cells: List[Tuple[int, int]
         start_dot_num, start_dot_pos, start_dot_dir = None, None, None
 
         # Set this bit and its end dot
-        new_set_piece_bits = deepcopy(set_piece_bits)
+        new_set_piece_bits = set_piece_bits.copy()
         new_set_piece_bits.append({
           'piece_idx': curr_bit['piece_idx'],
           'piece_type': curr_bit['piece_type'],
@@ -431,9 +431,9 @@ def solve(set_piece_bits, remaining_piece_bits, open_cells: List[Tuple[int, int]
           'end_dot_dir': end_dot_dir,
         })
 
-        new_open_cells = deepcopy(open_cells)
+        new_open_cells = open_cells.copy()
         new_open_cells.remove(curr_bit_pos)
-        new_open_dots = deepcopy(open_dots)
+        new_open_dots = open_dots.copy()
         if end_dot_pos is not None and end_dot_pos not in open_dots:
           continue
         new_open_dots.remove(end_dot_pos)
@@ -479,7 +479,7 @@ def solve(set_piece_bits, remaining_piece_bits, open_cells: List[Tuple[int, int]
       continue
 
     # Set tbe bit & its end dot
-    new_set_piece_bits = deepcopy(set_piece_bits)
+    new_set_piece_bits = set_piece_bits.copy()
     new_set_piece_bits.append({
       'piece_idx': curr_bit['piece_idx'],
       'piece_type': curr_bit['piece_type'],
@@ -498,9 +498,9 @@ def solve(set_piece_bits, remaining_piece_bits, open_cells: List[Tuple[int, int]
       'end_dot_dir': end_dot_dir,
     })
 
-    new_open_cells = deepcopy(open_cells)
+    new_open_cells = open_cells.copy()
     new_open_cells.remove(curr_bit_pos)
-    new_open_dots = deepcopy(open_dots)
+    new_open_dots = open_dots.copy()
     # Skip setting if no end dot (e.g. type '1' & end of piece)
     if end_dot_pos is not None:
       new_open_dots.remove(end_dot_pos)
