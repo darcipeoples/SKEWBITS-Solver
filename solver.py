@@ -369,13 +369,12 @@ def get_solution_image(grid: Grid, solution, cd: int = 20):
   
 
 ######## SOLVER FUNCTIONS #######
-  
+
 # set_piece_bits:         the bits we've set in place
 # remaining_piece_bits:   the bits we haven't set yet
 # open_cells:             cells that aren't set yet
 # open_dots:              dots that aren't set yet
 def solve(set_piece_bits, remaining_piece_bits, open_cells: List[Tuple[int, int]], open_dots: List[Tuple[int, int]], solve_all):
-  print_partial_solution(set_piece_bits, remaining_piece_bits, open_cells, open_dots)
 
   # If no more remaining piece bits, we found a solution
   if len(remaining_piece_bits) == 0:
@@ -399,6 +398,7 @@ def solve(set_piece_bits, remaining_piece_bits, open_cells: List[Tuple[int, int]
   
   # If starting a new piece, we have to try all of the starting positions and orientations
   if starting_a_new_piece:
+    print_partial_solution(set_piece_bits, remaining_piece_bits, open_cells, open_dots)
     # Put the first bit in any location
     for curr_bit_pos in open_cells:
       # Give the first bit any orientation (aka put its end dot anywhere)
@@ -606,6 +606,7 @@ def dedupe_solutions(solutions):
     print(key)
     solution_map[key] = solution
   return list(solution_map.values())
+
 
 ######### MAIN FUNCTION ########
 
