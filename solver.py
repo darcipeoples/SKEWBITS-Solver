@@ -415,6 +415,11 @@ def has_impossible_cell_chains(set_piece_bits, remaining_piece_bits, open_cells)
   min_piece_length = min(remaining_piece_lens.values())
   
   open_cell_chains = find_connected_components(open_cells)
+
+  # If more isolated components than pieces, will have empty spaces
+  if len(open_cell_chains) > len(remaining_piece_lens):
+    return True
+
   for open_cell_chain in open_cell_chains:
     if len(open_cell_chain) < min_piece_length:
       return True
