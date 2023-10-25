@@ -366,7 +366,60 @@ def get_solution_image(grid: Grid, solution, cd: int = 20):
       draw.line(coords, width=int(cd*.33), fill=color)
 
   return image
+
+def find_connected_components(coords):
+    coords = coords.copy()
+    
+    def is_valid(x, y):
+        return (x, y) in coords
+
+    def dfs(x, y, component):
+        if is_valid(x, y):
+            component.append((x, y))
+            coords.remove((x, y))  # Mark the cell as visited by removing it
+
+            # Check all 8 neighbors
+            for dx in [-2, 0, 2]:
+                for dy in [-2, 0, 2]:
+                    if dx == 0 and dy == 0:
+                        continue
+                    dfs(x + dx, y + dy, component)
+
+    connected_components = []
+    while coords:
+        x, y = coords[0]  # Start with the first remaining coordinate
+        component = []
+        dfs(x, y, component)
+        connected_components.append(component)
+
+    return connected_components
+
+def has_impossible_cell_chains(set_piece_bits, remaining_piece_bits, open_cells):
+  # If more open cells than remaining bits, hard to say if impossible
+  if len(remaining_piece_bits) < len(open_cells):
+    return False
+
+  # Find out how many bits left in the remaining pieces
+  set_pieces = set([bit['piece_idx'] for bit in set_piece_bits])
+  remaining_bit_pieces = [bit['piece_idx'] for bit in remaining_piece_bits]
   
+  # If some pieces partially done, hard to say
+  if set_pieces.intersection(remaining_bit_pieces):
+    return False
+  
+  remaining_piece_lens = {}
+  for piece in remaining_bit_pieces:
+    if piece not in remaining_piece_lens:
+      remaining_piece_lens[piece] = 0
+    remaining_piece_lens[piece] += 1
+  min_piece_length = min(remaining_piece_lens.values())
+  
+  open_cell_chains = find_connected_components(open_cells)
+  for open_cell_chain in open_cell_chains:
+    if len(open_cell_chain) < min_piece_length:
+      return True
+    
+  return False
 
 ######## SOLVER FUNCTIONS #######
 
@@ -398,7 +451,12 @@ def solve(set_piece_bits, remaining_piece_bits, open_cells: List[Tuple[int, int]
   
   # If starting a new piece, we have to try all of the starting positions and orientations
   if starting_a_new_piece:
+    has_impossible_chains = has_impossible_cell_chains(set_piece_bits, remaining_piece_bits, open_cells)
+    if has_impossible_chains:
+      return []
+  
     print_partial_solution(set_piece_bits, remaining_piece_bits, open_cells, open_dots)
+
     # Put the first bit in any location
     for curr_bit_pos in open_cells:
       # Give the first bit any orientation (aka put its end dot anywhere)
