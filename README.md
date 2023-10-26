@@ -31,7 +31,7 @@ python3 solver.py
 When running the program, you must specify:
 1. Which `.txt` file in the `input/` folder to read from.
 2. Whether you want to find all solutions the puzzle or just the first one
-  - Note: Finding all solutions for each of the 001-025 SKEWBITS puzzles takes less than 30 seconds on my laptop. On REPL, it's up to 3.5 minutes for difficult puzzles like 020, but often less for the others.
+  - Note: Finding all solutions for each of the 001-025 SKEWBITS puzzles takes less than 30 seconds on my laptop. On REPL, it's up to 3.5 minutes for difficult puzzles like 020, but often less for the others. To solve faster (stop once we find a solution instead of finding all), don't pass `--solve-all` or answer 'n' (no) to that question.
 
 ### How to set the arguments
 There are two ways to specify the arguments:
@@ -97,7 +97,7 @@ python3 solver.py example.txt
 <img src="assets/example-outline.png" width="150"/>
 
 ### Run the program to solve the puzzle
-Run the program (if you want all solutions, pass `--solve-all` or answer Y(es) to that question).
+Run the program (if you want all solutions, pass `--solve-all` or answer 'y' (yes) to that question).
 
 ```
 python3 solver.py example.txt --solve-all
