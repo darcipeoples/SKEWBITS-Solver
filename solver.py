@@ -3,6 +3,7 @@ from copy import deepcopy
 from enum import Enum
 import json
 import time
+import os
 from typing import Any, Dict, List, Tuple
 from PIL import Image, ImageDraw
 
@@ -241,7 +242,7 @@ def print_partial_solution(set_piece_bits, remaining_piece_bits, open_cells: Lis
   for dot_x, dot_y in open_dots:
     grid[dot_y][dot_x] = dot_str(Piece.EMPTY)
 
-  print(get_grid_str(grid))
+  print(get_grid_str(grid), '\n')
 
 
 ######## TEXT DISPLAY FUNCTIONS ########
@@ -628,22 +629,22 @@ def parse_solution_json_obj(solution_obj):
       bit['end_dot_dir'] = Direction[bit['end_dot_dir'].split('Direction.')[1]]
   return solution_obj
   
-def load_solution_from_file(filename):
-  with open(f'solutions/json/{filename}') as f:
+def load_solution_from_filepath(filepath):
+  with open(filepath) as f:
     solution = json.load(f)['solution']
     solution = parse_solution_json_obj(solution)
   return solution
 
-def load_solutions_from_file(filename):
+def load_solutions_from_filepath(filepath):
   parsed_solutions = []
-  with open(f'solutions/json/{filename}') as f:
+  with open(filepath) as f:
     solutions = json.load(f)['solutions']
     for solution in solutions:
       parsed_solutions.append(parse_solution_json_obj(solution))
   return parsed_solutions
 
-def load_grid_from_file(filename):
-  grid = [list(x.rstrip().upper()) for x in open(f'puzzles/{filename}', 'r').readlines()]
+def load_grid_from_filepath(filepath):
+  grid = [list(x.rstrip().upper()) for x in open(filepath, 'r').readlines()]
   grid = get_grid_mark_empty_dots(grid)
   return grid
 
@@ -685,6 +686,8 @@ def get_grid_mark_empty_dots(grid):
 
 # Dedupe solutions based just on the color and location of the bits and dots (ignore hinge direction)
 def dedupe_solutions(solutions):
+  if solutions is None:
+    return None
   solution_map = {}
   for solution in solutions:
     dot_coords_to_piece_type = {}
@@ -710,13 +713,19 @@ def dedupe_solutions(solutions):
 def main():
   # Define and parse command line arguments
   parser = argparse.ArgumentParser(description="Solver for Make Anything's SKEWBITS puzzle.")
-  parser.add_argument('filename', help='The puzzle filename to read from.')
+  parser.add_argument('filename', help='The name of the text file in the puzzles/ folder')
   parser.add_argument('--solve-all', action='store_true', help='Whether to calculate all solutions or just the first found.')
   args = parser.parse_args()
   puzzle_filename = args.filename
   solve_all = args.solve_all
 
+  if '/' in puzzle_filename or '\\' in puzzle_filename:
+    print("Please specify the name of a text file in the puzzle/ directory. The name cannot contain slashes.")
+    exit(0)
+
+  # Find the file to load from
   puzzle_name = puzzle_filename.lower().split('.txt')[0]
+  input_filepath = f'input/{puzzle_filename}'
 
   # Get a list of all of the piece bits which we'll need to place
   all_pieces = [Piece.RED, Piece.YELLOW, Piece.GREEN, Piece.BLUE]
@@ -739,12 +748,20 @@ def main():
         })
 
   # Load the puzzle grid from file
-  grid = load_grid_from_file(puzzle_filename)
+  grid = load_grid_from_filepath(input_filepath)
   print(get_grid_str(grid))
+
+  # Find the files to save results to
+  output_dir = f'output/{puzzle_name}'
+  solution_images_dir = f'{output_dir}/solution-images'
+  solutions_json_filepath = f'{output_dir}/{puzzle_name}-solutions.json'
+  outline_img_filepath = f'{output_dir}/{puzzle_name}-outline.png'
+  if not os.path.exists(solution_images_dir):
+      os.makedirs(solution_images_dir)
 
   # Save an image of the puzzle outline
   image = get_outline_image(grid)
-  image.save(f"outlines/{puzzle_name}.png")
+  image.save(outline_img_filepath)
 
   # Solve the puzzle
   all_open_cells = get_open_cells(grid)
@@ -753,33 +770,34 @@ def main():
   start_time = time.time()
   solutions = solve([], all_piece_bits, all_open_cells, all_open_dots, solve_all)
 
-  # Load the puzzle from file
-  # solutions = load_solutions_from_file(f'{puzzle_name}-all.json')
-
-  # Print info about the found soltuion(s)
-  if solutions == []:
-    print('Did not find any solutions. The puzzle is likely impossible')
-    return
+  # # Load the puzzle from file
+  # solutions = load_solutions_from_filepath(solutions_json_filepath)
   
   total_solutions = len(solutions)
   solutions = dedupe_solutions(solutions)
   print(solutions)
   print(f"{len(solutions)} solutions (deduped from {total_solutions})")
 
-  # Save the solution image(s)
-  for i, solution in enumerate(solutions):
-    print(get_soln_str(grid, solution))
-
-    image = get_solution_image(grid, solution, 20)
-    image.save(f"solutions/images/{puzzle_name}{f'-{i}' if solve_all else ''}.png")
-
   # Save the solution(s) json
-  with open(f"solutions/json/{puzzle_name}{'-all' if solve_all else ''}.json", 'w+') as f:
+  with open(solutions_json_filepath, 'w+') as f:
     result = {
+      'solution_count': len(solutions),
+      'solve_time': int(time.time() - start_time),
       'solutions': solutions,
-      'duration': int(time.time() - start_time),
     }
     json.dump(result, f, default=str, indent=2)
+
+  # Print info about the found soltuion(s)
+  if solutions == []:
+    print('Did not find any solutions. The puzzle may be impossible.')
+    return
+
+  # Save the solution image(s)
+  for i, solution in enumerate(solutions):
+    print(get_soln_str(grid, solution), '\n')
+    image = get_solution_image(grid, solution, 20)
+
+    image.save(f"{solution_images_dir}/{puzzle_name}-{i}.png")
   
 if __name__ == '__main__':
   main()
