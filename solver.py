@@ -1,3 +1,12 @@
+"""
+Solver for Make Anything's SKEWBITS puzzles
+Created by Darci Peoples (https://linktr.ee/darcipeoples)
+
+Make Anything's SKEWBITS:
+* YouTube video: https://www.youtube.com/watch?v=j_jYnhOX49g
+* 3D printing files: https://than.gs/m/949147
+"""
+
 import argparse
 from copy import deepcopy
 from enum import Enum
@@ -713,11 +722,37 @@ def dedupe_solutions(solutions):
 def main():
   # Define and parse command line arguments
   parser = argparse.ArgumentParser(description="Solver for Make Anything's SKEWBITS puzzle.")
-  parser.add_argument('filename', help='The name of the text file in the puzzles/ folder')
-  parser.add_argument('--solve-all', action='store_true', help='Whether to calculate all solutions or just the first found.')
+  parser.add_argument('filename', nargs='?', default=None, help="The name of the text file in the 'input/' folder")
+  parser.add_argument('--solve-all', action='store_true', default=None, help='Whether to calculate all solutions or just the first found.')
   args = parser.parse_args()
   puzzle_filename = args.filename
   solve_all = args.solve_all
+
+  print(f"""
+{'='*60}
+Welcome to the Solver for Make Anything's SKEWBITS puzzles
+Created by Darci Peoples (https://linktr.ee/darcipeoples)
+
+Make Anything's SKEWBITS:
+* YouTube video: https://www.youtube.com/watch?v=j_jYnhOX49g
+* 3D printing files: https://than.gs/m/949147
+
+Run `python3 solver.py -h` for help
+{'='*60}
+""")
+
+  if puzzle_filename is None or solve_all is None:
+    print("You haven't specified command line arguments (e.g. python3 solver.py 001.txt --solve-all), so you'll be asked to provide those answers now.")
+
+  if puzzle_filename is None:
+    puzzle_filename = input("\n  > Enter the name of the text file in the 'input/' directory to read from (e.g. 001.txt): ")
+  
+  while solve_all is None:
+    solve_all_str = input('\n  > Do you want to find all of the solutions for the puzzle (v.s. just one)? Y(es) or N(o)?: ')
+    if len(solve_all_str) > 0 and solve_all_str[0].lower() == 'y':
+      solve_all = True
+    if len(solve_all_str) > 0 and solve_all_str[0].lower() == 'n':
+      solve_all = False
 
   if '/' in puzzle_filename or '\\' in puzzle_filename:
     print("Please specify the name of a text file in the puzzle/ directory. The name cannot contain slashes.")
@@ -760,7 +795,8 @@ def main():
       os.makedirs(solution_images_dir)
 
   # Save an image of the puzzle outline
-  image = get_outline_image(grid)
+  cell_pixel_width = 20
+  image = get_outline_image(grid, cell_pixel_width)
   image.save(outline_img_filepath)
 
   # Solve the puzzle
@@ -769,35 +805,37 @@ def main():
 
   start_time = time.time()
   solutions = solve([], all_piece_bits, all_open_cells, all_open_dots, solve_all)
+  duration = time.time() - start_time
 
   # # Load the puzzle from file
   # solutions = load_solutions_from_filepath(solutions_json_filepath)
   
   total_solutions = len(solutions)
   solutions = dedupe_solutions(solutions)
-  print(solutions)
-  print(f"{len(solutions)} solutions (deduped from {total_solutions})")
 
   # Save the solution(s) json
   with open(solutions_json_filepath, 'w+') as f:
     result = {
       'solution_count': len(solutions),
-      'solve_time': int(time.time() - start_time),
+      'solve_time': int(duration),
       'solutions': solutions,
     }
     json.dump(result, f, default=str, indent=2)
 
-  # Print info about the found soltuion(s)
+  # Save the solution image(s)
+  for i, solution in enumerate(solutions):
+    print(get_soln_str(grid, solution), '\n')
+    image = get_solution_image(grid, solution, cell_pixel_width)
+
+    image.save(f"{solution_images_dir}/{puzzle_name}-{i}.png")
+
+  print(f"Found {len(solutions)} solution(s) (deduped from {total_solutions}) in {duration:.2f} seconds")
+
   if solutions == []:
     print('Did not find any solutions. The puzzle may be impossible.')
     return
 
-  # Save the solution image(s)
-  for i, solution in enumerate(solutions):
-    print(get_soln_str(grid, solution), '\n')
-    image = get_solution_image(grid, solution, 20)
-
-    image.save(f"{solution_images_dir}/{puzzle_name}-{i}.png")
+  print(f"Results have been saved to the '{output_dir}' folder")
   
 if __name__ == '__main__':
   main()
