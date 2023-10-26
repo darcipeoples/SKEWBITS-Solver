@@ -742,10 +742,10 @@ Run `python3 solver.py -h` for help
 """)
 
   if puzzle_filename is None or solve_all is None:
-    print("You haven't specified command line arguments (e.g. python3 solver.py 001.txt --solve-all), so you'll be asked to provide those answers now.")
+    print("You haven't specified command line arguments (e.g. python3 solver.py example.txt --solve-all), so you'll be asked to provide those answers now.")
 
   if puzzle_filename is None:
-    puzzle_filename = input("\n  > Enter the name of the text file in the 'input/' directory to read from (e.g. 001.txt): ")
+    puzzle_filename = input("\n  > Enter the name of the text file in the 'input/' directory to read from (e.g. example.txt): ")
   
   while solve_all is None:
     solve_all_str = input('\n  > Do you want to find all of the solutions for the puzzle (v.s. just one)? Y(es) or N(o)?: ')
