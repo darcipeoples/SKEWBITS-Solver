@@ -1,4 +1,4 @@
-# SKEWBITS
+# SKEWBITS-Solver
 Solver for Make Anything's SKEWBITS puzzles
 
 Created by Darci Peoples (https://linktr.ee/darcipeoples)
@@ -109,8 +109,10 @@ python3 solver.py example.txt --solve-all
 
 For example, `output/example/solution-images/`
 
-<img src="assets/example-0.png" width="150"/>
-<img src="assets/example-1.png" width="150"/>
+<p float="left">
+  <img src="assets/example-0.png" width="150"/>
+  <img src="assets/example-1.png" width="150"/>
+</p>
 
 **Solution json**
 
