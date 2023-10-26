@@ -89,7 +89,7 @@ Mark all available dots (notches) on the outside of the outline using 'O'. The p
 Check that the outline generates as expected.
 
 ```
-python3 solver.py example.txt --solve-all
+python3 solver.py example.txt
 ```
 
 `output/example/example-outline.png`:
@@ -97,7 +97,7 @@ python3 solver.py example.txt --solve-all
 <img src="assets/example-outline.png" width="150"/>
 
 ### Run the program to solve the puzzle
-Run the program (use `--solve-all` if you want all solutions or answer Yes to that prompt).
+Run the program (if you want all solutions, pass `--solve-all` or answer Y(es) to that question).
 
 ```
 python3 solver.py example.txt --solve-all
