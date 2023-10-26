@@ -11,6 +11,10 @@ EMPTY_CELL = 'X'
 HORIZ_DIV = '-'
 VERT_DIV = '|'
 
+OUTLINE_FILL = (0, 0, 0)
+BACKGROUND_FILL = (255, 255, 255)
+BLANK_CELL_FILL = (240,)*3
+
 class Direction(Enum):
   UP = (0,-1)
   LEFT = (-1,0)
@@ -95,7 +99,7 @@ PIECE_INFO = {
     'bit_symbol': EMPTY_CELL,
     'dot_symbol': EMPTY_DOT,
     'ansi_color': 8,
-    'image_color': (240, 240, 240),
+    'image_color': BLANK_CELL_FILL,
   },
 }
 
@@ -240,7 +244,7 @@ def print_partial_solution(set_piece_bits, remaining_piece_bits, open_cells: Lis
   print(get_grid_str(grid))
 
 
-######## DISPLAY FUNCTIONS ########
+######## TEXT DISPLAY FUNCTIONS ########
 
 def bit_str(piece_type: Piece) -> str:
   piece_info = PIECE_INFO[piece_type]
@@ -274,98 +278,130 @@ def get_soln_str(grid: Grid, solution) -> str:
   
   return get_grid_str(grid)
 
-def get_solution_image(grid: Grid, solution, cd: int = 20):
+######## IMAGE GENERATION UTILS ########
+
+def get_cell_center(i, j, cd):
+  return (i//2+1.5)*cd, (j//2+1.5)*cd
+
+def get_dot_center(i, j, cd):
+  return (i//2+1)*cd, (j//2+1)*cd
+
+def get_scaled_coords(coord, cd, scale):
+  cx, cy = coord
+  return ((cx - cd*scale, cy - cd*scale), (cx + cd*scale, cy + cd*scale))
+
+# Generate an image showing the puzzle outline
+def get_outline_image(grid: Grid, cd: int = 20) -> Image:
   M, N = max([len(line) for line in grid]) // 2, len(grid) // 2
 
-  bg_color = (255, 255, 255)
-  blank_color = PIECE_INFO[Piece.EMPTY]['image_color']
-  outline_color = "black"
-
-  # Create a new image
-  image = Image.new("RGB", (cd*(M+2), cd*(N+2)), bg_color)
+  image = Image.new("RGB", (cd*(M+2), cd*(N+2)), BACKGROUND_FILL)
   draw = ImageDraw.Draw(image)
 
-  original_open_cells = get_open_cells(grid)
-  original_open_dots = get_open_dots(grid)
+  open_cells = get_open_cells(grid)
+  open_dots = get_open_dots(grid)
 
-  # Draw a grid of empty cells
-  for i in range(M):
-    for j in range(N):
-      cx, cy = (i+1.5)*cd, (j+1.5)*cd
-      color = blank_color
-      coords = [(cx - cd*0.4, cy - cd*0.4), (cx + cd*0.4, cy + cd*0.4)]
-      draw.rectangle(coords, outline=color, width=2, fill=color)
+  # Draw an MxN grid of blank cells
+  for i in range(0, M*2, 2):
+    for j in range(0, N*2, 2):
+      color = BLANK_CELL_FILL
+      center = get_cell_center(i, j, cd)
+      coords = get_scaled_coords(center, cd, 0.4)
+      draw.rectangle(coords, outline=color, fill=color)
 
-  # Fill original empty cells with outline color
-  for (i, j) in original_open_cells:
-    cx, cy = (i//2+1.5)*cd, (j//2+1.5)*cd
-    color = outline_color
-    coords = [(cx - cd*0.60, cy - cd*0.60), (cx + cd*0.60, cy + cd*0.60)]
-    draw.rectangle(coords, outline=color, width=5, fill=color)
+  # Overfill all available cells with the outline color
+  for (i, j) in open_cells:
+    color = OUTLINE_FILL
+    center = get_cell_center(i, j, cd)
+    coords = get_scaled_coords(center, cd, 0.6)
+    draw.rectangle(coords, outline=color, fill=color)
   
-  # Fill original available dots with outline color
-  for (i, j) in original_open_dots:
-    cx, cy = (i//2+1)*cd, (j//2+1)*cd
-    color = outline_color
-    coords = [(cx - cd*.3, cy - cd*.3), (cx + cd*.3, cy + cd*.3)]
-    draw.ellipse(coords, outline=color, width=5, fill=color)
+  # Overfill all available dots with outline color
+  for (i, j) in open_dots:
+    color = OUTLINE_FILL
+    center = get_dot_center(i, j, cd)
+    coords = get_scaled_coords(center, cd, 0.3)
+    draw.ellipse(coords, outline=color, fill=color)
 
-  # White-out the outline cells
-  for (i, j) in original_open_cells:
-    cx, cy = (i//2+1.5)*cd, (j//2+1.5)*cd
-    color = bg_color
-    coords = [(cx - cd*0.55, cy - cd*0.55), (cx + cd*0.55, cy + cd*0.55)]
-    draw.rectangle(coords, outline=color, width=5, fill=color)
+  # Fill the outline's cells with the background color
+  for (i, j) in open_cells:
+    color = BACKGROUND_FILL
+    center = get_cell_center(i, j, cd)
+    coords = get_scaled_coords(center, cd, 0.55)
+    draw.rectangle(coords, outline=color, fill=color)
 
-  # White-out the outline circles
-  for (i, j) in original_open_dots:
-    cx, cy = (i//2+1)*cd, (j//2+1)*cd
-    color = bg_color
-    coords = [(cx - cd*0.25, cy - cd*0.25), (cx + cd*0.25, cy + cd*0.25)]
-    draw.ellipse(coords, outline=color, width=2, fill=color)
+  # Fill the outline's dots with the background color
+  for (i, j) in open_dots:
+    color = BACKGROUND_FILL
+    center = get_dot_center(i, j, cd)
+    coords = get_scaled_coords(center, cd, 0.25)
+    draw.ellipse(coords, outline=color, fill=color)
 
-  # Draw rectangles for each bit
-  for bit in solution:
-    bit_x, bit_y = bit['cell_pos']
-    piece_type = bit['piece_type']
-
-    cx, cy = (bit_x//2+1.5)*cd, (bit_y//2+1.5)*cd
-    color = PIECE_INFO[piece_type]['image_color']
-    coords = [(cx - cd*0.45, cy - cd*0.45), (cx + cd*0.45, cy + cd*0.45)]
-    draw.rectangle(coords, outline=color, width=5, fill=color)
-
-  # White-out end dots
-  for bit in solution:
-    bit_x, bit_y = bit['cell_pos']
-    end_dot_pos = bit['end_dot_pos']
-    if end_dot_pos is not None:
-      edx, edy = end_dot_pos
-      cx, cy = (edx//2+1)*cd, (edy//2+1)*cd
-      color = bg_color
-      coords = [(cx - cd*0.25, cy - cd*0.25), (cx + cd*0.25, cy + cd*0.25)]
-      draw.ellipse(coords, outline=color, width=2, fill=color)
-
-  for bit in solution:
-    bit_x, bit_y = bit['cell_pos']
-    piece_type = bit['piece_type']
-
-    end_dot_pos = bit['end_dot_pos']
-    if end_dot_pos is not None:
-      end_dot_x, end_dot_y = end_dot_pos
-
-      # Draw hinge at center of dot
-      edx, edy = (end_dot_x//2+1)*cd, (end_dot_y//2+1)*cd
-      color = PIECE_INFO[piece_type]['image_color']
-      coords = [(edx - cd*0.15, edy - cd*0.15), (edx + cd*0.15, edy + cd*0.15)]
-      draw.ellipse(coords, outline=color, width=5, fill=color)
-
-      # Connect hinge and cell with a linesquare
-      bcx, bcy = (bit_x//2+1.5)*cd, (bit_y//2+1.5)*cd
-      color = PIECE_INFO[piece_type]['image_color']
-      coords = [(edx, edy), (bcx, bcy)]
-      draw.line(coords, width=int(cd*.33), fill=color)
+  # Underfill the outline's cells with the empty cell color
+  for (i, j) in open_cells:
+    color = BLANK_CELL_FILL
+    center = get_cell_center(i, j, cd)
+    coords = get_scaled_coords(center, cd, 0.4)
+    draw.rectangle(coords, outline=color, fill=color)
 
   return image
+
+# Generate an image of the solution on the grid
+def get_solution_image(grid: Grid, solution, cd: int = 20) -> Image:
+  image = get_outline_image(grid, cd)
+  draw = ImageDraw.Draw(image)
+
+  # Fill each solution cell with the bit's color
+  for bit in solution:
+    i, j = bit['cell_pos']
+    piece_type = bit['piece_type']
+
+    color = PIECE_INFO[piece_type]['image_color']
+    center = get_cell_center(i, j, cd)
+    coords = get_scaled_coords(center, cd, 0.45)
+    draw.rectangle(coords, outline=color, fill=color)
+
+  # Overfill all solution dots with the background color
+  for bit in solution:
+    bit_x, bit_y = bit['cell_pos']
+    end_dot_pos = bit['end_dot_pos']
+    if end_dot_pos is not None:
+      i, j = end_dot_pos
+      color = BACKGROUND_FILL
+      center = get_dot_center(i, j, cd)
+      coords = get_scaled_coords(center, cd, 0.25)
+      draw.ellipse(coords, outline=color, fill=color)
+
+  # Fill each solution dot with the bit's color
+  # Connect each dot to the bit it came from
+  for bit in solution:
+    bit_pos = bit['cell_pos']
+    piece_type = bit['piece_type']
+    piece_color = PIECE_INFO[piece_type]['image_color']
+
+    end_dot_pos = bit['end_dot_pos']
+    end_dot_dir = bit['end_dot_dir']
+    if end_dot_pos is None or end_dot_dir is None:
+      continue
+
+    i, j = end_dot_pos
+    dot_center = get_dot_center(i, j, cd)
+    i, j = bit_pos
+    bit_center = get_cell_center(i, j, cd)
+
+    # Connect the dot and bit with a line
+    color = piece_color
+    coords = [dot_center, bit_center]
+    draw.line(coords, width=int(cd*.3), fill=color)
+
+    # Fill the dot with the bit's color
+    color = piece_color
+    coords = get_scaled_coords(dot_center, cd, 0.15)
+    draw.ellipse(coords, outline=color, fill=color)
+
+  return image
+
+
+######## SOLVER FUNCTIONS #######
 
 def find_connected_components(coords):
     coords = coords.copy()
@@ -425,8 +461,6 @@ def has_impossible_cell_chains(set_piece_bits, remaining_piece_bits, open_cells)
       return True
     
   return False
-
-######## SOLVER FUNCTIONS #######
 
 # set_piece_bits:         the bits we've set in place
 # remaining_piece_bits:   the bits we haven't set yet
@@ -674,6 +708,7 @@ def dedupe_solutions(solutions):
 ######### MAIN FUNCTION ########
 
 def main():
+  # Define and parse command line arguments
   parser = argparse.ArgumentParser(description="Solver for Make Anything's SKEWBITS puzzle.")
   parser.add_argument('filename', help='The puzzle filename to read from.')
   parser.add_argument('--solve-all', action='store_true', help='Whether to calculate all solutions or just the first found.')
@@ -681,8 +716,10 @@ def main():
   puzzle_filename = args.filename
   solve_all = args.solve_all
 
-  all_pieces = [Piece.RED, Piece.YELLOW, Piece.GREEN, Piece.BLUE]
+  puzzle_name = puzzle_filename.lower().split('.txt')[0]
 
+  # Get a list of all of the piece bits which we'll need to place
+  all_pieces = [Piece.RED, Piece.YELLOW, Piece.GREEN, Piece.BLUE]
   all_piece_bits = []
   for piece_idx, piece_type in enumerate(all_pieces):
       piece_info = PIECE_INFO[piece_type]
@@ -701,20 +738,25 @@ def main():
           'end_dot_num': end_dot_num,
         })
 
-  # print(get_remaining_bits_summary(all_piece_bits))
-
-  puzzle_name = puzzle_filename.lower().split('.txt')[0]
-
+  # Load the puzzle grid from file
   grid = load_grid_from_file(puzzle_filename)
-
   print(get_grid_str(grid))
 
+  # Save an image of the puzzle outline
+  image = get_outline_image(grid)
+  image.save(f"outlines/{puzzle_name}.png")
+
+  # Solve the puzzle
   all_open_cells = get_open_cells(grid)
   all_open_dots = get_open_dots(grid)
 
   start_time = time.time()
   solutions = solve([], all_piece_bits, all_open_cells, all_open_dots, solve_all)
 
+  # Load the puzzle from file
+  # solutions = load_solutions_from_file(f'{puzzle_name}-all.json')
+
+  # Print info about the found soltuion(s)
   if solutions == []:
     print('Did not find any solutions. The puzzle is likely impossible')
     return
@@ -724,18 +766,20 @@ def main():
   print(solutions)
   print(f"{len(solutions)} solutions (deduped from {total_solutions})")
 
+  # Save the solution image(s)
+  for i, solution in enumerate(solutions):
+    print(get_soln_str(grid, solution))
+
+    image = get_solution_image(grid, solution, 20)
+    image.save(f"solutions/images/{puzzle_name}{f'-{i}' if solve_all else ''}.png")
+
+  # Save the solution(s) json
   with open(f"solutions/json/{puzzle_name}{'-all' if solve_all else ''}.json", 'w+') as f:
     result = {
       'solutions': solutions,
       'duration': int(time.time() - start_time),
     }
     json.dump(result, f, default=str, indent=2)
-
-  for i, solution in enumerate(solutions):
-    print(get_soln_str(grid, solution))
-
-    image = get_solution_image(grid, solution)
-    image.save(f"solutions/images/{puzzle_name}{f'-{i}' if solve_all else ''}.png")
   
 if __name__ == '__main__':
   main()
