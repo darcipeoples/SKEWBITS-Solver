@@ -7,11 +7,11 @@ Make Anything's SKEWBITS:
 * YouTube video: https://www.youtube.com/watch?v=j_jYnhOX49g
 * 3D printing files: https://than.gs/m/949147
 
-<img src="assets/001-outline.png" width="400"/>
-<img src="assets/001-0.png" width="400"/>
+<img src="assets/001-outline.png" width="300"/>
+<img src="assets/001-0.png" width="300"/>
 <br/>
-<img src="assets/004-0.png" width="400"/>
-<img src="assets/008-0.png" width="400"/>
+<img src="assets/004-0.png" width="300"/>
+<img src="assets/008-0.png" width="300"/>
 
 ## How to run it
 ### On replit.com
