@@ -35,13 +35,13 @@ When running the program, you must specify:
 
 ### How to set the arguments
 There are two ways to specify the arguments:
-1) **Question & Answer:** If you don't pass any command line arguments (e.g. just hit 'Run' in REPL), the program will ask you two questions to speciy the arguments.
-2) **Command Line Arguments:** If you don't want to type your input parameters each time you run the program, you can pass them in as command line arguments (in REPL, this is in the "Shell" tab). Run `python3 solver.py -h` to see all options. For example, this command will find all solutions to the puzzle specified in `input/001.txt`: `python3 solver.py 001.txt --solve-all`
+1) **Question & Answer:** If you don't pass any command line arguments (e.g. just hit 'Run' in REPL), the program will ask you two questions to specify the arguments.
+2) **Command Line Arguments:** If you don't want to type your input parameters in each time you run the program, you can pass them in as command line arguments (in REPL, this is in the "Shell" tab). Run `python3 solver.py -h` to see all options. For example, this command will find all solutions to the puzzle specified in `input/001.txt`: `python3 solver.py 001.txt --solve-all`
 
 ## Make your own puzzle
 To run the program using your own puzzle, you can add to or modify the `.txt` files inside of the `input/` folder. If making a brand new puzzle, it can help to copy the contents of `input/grid.txt` as a starting point.
 
-Outputs of the program go into the `output/<name of your puzzle>/` folder.
+Outputs of the program will go into the created `output/<name of your puzzle>/` folder.
 
 ## (Tiny) Example
 *I'm using a tiny grid & just the green piece for this example. For now, the program requires that you use all pieces & fill all cells in the grid (so you needs to have 18 available  (aka 'X') cells).*
